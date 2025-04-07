@@ -1,0 +1,25 @@
+# Build Results
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# VS-specific
+.vs/
+*.user
+*.suo
+
+# Logs
+*.log
+*.cache
+
+# User-specific
+*.csproj.user
+*.dbmdl
+
+# Rider / JetBrains
+.idea/
+
+# Backup files
+*~
