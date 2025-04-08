@@ -14,29 +14,51 @@ namespace TaskApp
 {
     public partial class Form1 : Form
     {
-        List<TaskItem> tasks = new List<TaskItem>();
+        List<TaskItem> tasks = new List<TaskItem>(); //used to save tasks
 
-        public Form1()
+        string currentCategory = "default";
+
+        /// <summary>
+        /// Initializes the form, loads saved tasks, and sets up initial events.
+        /// </summary>
+        public Form1(string category)
         {
             InitializeComponent();
 
-            LoadTasks();
+            currentCategory = category;
 
-            this.AcceptButton = AddTaskBtn;
+            LoadTasks(currentCategory); // load tasks saved in json
 
-            foreach (var task in tasks)
+            this.AcceptButton = AddTaskBtn; // add AddTaskBtn event to the enter button
+
+            foreach (var task in tasks) // load tasks into the CheckBox
             {
                 checkedListBox.Items.Add(task.name, task.status);
             }
 
-            checkedListBox.ItemCheck += checkedListBox1_ItemCheck;
+            checkedListBox.ItemCheck += checkedListBox1_ItemCheck; // Updates task status when checking/unchecking.
         }
-
+        /// <summary>
+        /// Exit the application
+        /// </summary>
         private void ExitBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// Navigates back to the main form.
+        /// </summary>
+        private void BackToMain_Click(object sender, EventArgs e)
+        {
+            Main form2 = new Main();
+            form2.Show();
+            this.Hide();
+        }
+
+        /// <summary>
+        /// Adds a new task to the list, saves it to file and refreshes the interface.
+        /// </summary>
         private void AddTaskBtn_Click(object sender, EventArgs e)
         {
             string newTask = textBoxAdd.Text;
@@ -46,18 +68,19 @@ namespace TaskApp
                 checkedListBox.Items.Add(newTask);
                 tasks.Add(new TaskItem(newTask, false));
                 SaveTask();
-                messageBox.Text = "Tarefa adicionada com sucesso";
+                messageBox.Text = "Task added successfully";
                 textBoxAdd.Clear();
-
             }
             else
             {
-                messageBox.Text = "Digite uma tarefa antes de adicionar";
+                messageBox.Text = "Type a task before adding";
             }
 
             WaitAndClean();
         }
-
+        /// <summary>
+        /// Removes all marked (completed) tasks from the list and refreshes the file.
+        /// </summary>
         private void deleteTaskBtn_Click(object sender, EventArgs e)
         {
             try
@@ -79,42 +102,50 @@ namespace TaskApp
                     }
                 }
 
-                messageBox.Text = "Tarefas removidas com sucesso";
+                messageBox.Text = "Task removed successfully";
 
                 SaveTask();
             }
             catch
             {
-                messageBox.Text = "Nenhuma tarefa selecionada";
+                messageBox.Text = "No task selected";
             }
 
             WaitAndClean();
         }
 
+        /// <summary>
+        /// Saves the current list of tasks to a JSON file.
+        /// </summary>
         private void SaveTask()
         {
             try
             {
                 string json = JsonSerializer.Serialize(tasks);
-                File.WriteAllText("tasks.json", json);
+                string fileTask = currentCategory + "tasks.json";
+                File.WriteAllText(fileTask, json);
             }
             catch
             {
-                messageBox.Text = "Tarefa não foi salva";
+                messageBox.Text = "Task was not Saved";
             }
 
             WaitAndClean();
         }
 
-        private void LoadTasks()
+        /// <summary>
+        /// Loads saved tasks from JSON file if exists.
+        /// </summary>
+        private void LoadTasks(string category)
         {
             try
             {
-                if (File.Exists("tasks.json"))
+                string filePath = category + "tasks.json";
+                if (File.Exists(filePath))
                 {
-                    string json = File.ReadAllText("tasks.json");
+                    string json = File.ReadAllText(filePath);
                     tasks = JsonSerializer.Deserialize<List<TaskItem>>(json) ?? new List<TaskItem>();
-                    messageBox.Text = "Tarefa carregadas com sucesso";
+                    messageBox.Text = "Tasks loaded successfully";
                 }
             }
             catch (FileNotFoundException)
@@ -133,6 +164,9 @@ namespace TaskApp
             WaitAndClean();
         }
 
+        /// <summary>
+        /// Updates the task status (completed or not) when checking/unchecking in the checklist.
+        /// </summary>
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             this.BeginInvoke((MethodInvoker)delegate
@@ -144,7 +178,9 @@ namespace TaskApp
                 }
             });
         }
-
+        /// <summary>
+        /// Wait 2 seconds and clear the content of the displayed message.
+        /// </summary>
         async void WaitAndClean()
         {
             await Task.Delay(2000);
@@ -152,16 +188,25 @@ namespace TaskApp
         }
     }
 
+    /// <summary>
+    /// Represents a task with name and status (completed or not).
+    /// </summary>
     public class TaskItem
     {
         public string name { get; set; }
         public bool status { get; set; }
 
-        public TaskItem (string task, bool Status)
+        /// <summary>
+        /// Constructor with parameters to initialize the task.
+        /// </summary>
+        public TaskItem(string task, bool Status)
         {
             this.name = task;
             this.status = Status;
         }
+        /// <summary>
+        /// Empty constructor required for JSON deserialization.
+        /// </summary>
         public TaskItem() { }
     }
 }
