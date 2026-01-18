@@ -18,5 +18,5 @@ Click the button below to download the latest version:
 
 ## 📸 Screenshots
 
-![screenshot](https://github.com/BrenoGalvaoDev/TaskApp/issues/1#issue-2981212266)
-![screenshot](https://github.com/BrenoGalvaoDev/TaskApp/issues/2#issue-2981212648)
+![Image](https://github.com/user-attachments/assets/775980c2-afde-4666-98a2-a6ce3fe83c2a)
+![Image](https://github.com/user-attachments/assets/a12ef4aa-85a1-42b8-8e30-7b47ee195c2c)
