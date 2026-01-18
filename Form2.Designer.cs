@@ -85,7 +85,6 @@
             // 
             // toolStripTextBox1
             // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
@@ -102,11 +101,11 @@
             this.NewTaskManagerBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NewTaskManagerBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NewTaskManagerBtn.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.NewTaskManagerBtn.Location = new System.Drawing.Point(81, 142);
+            this.NewTaskManagerBtn.Location = new System.Drawing.Point(46, 142);
             this.NewTaskManagerBtn.Name = "NewTaskManagerBtn";
-            this.NewTaskManagerBtn.Size = new System.Drawing.Size(75, 23);
+            this.NewTaskManagerBtn.Size = new System.Drawing.Size(140, 23);
             this.NewTaskManagerBtn.TabIndex = 1;
-            this.NewTaskManagerBtn.Text = "New Task";
+            this.NewTaskManagerBtn.Text = "New Category";
             this.NewTaskManagerBtn.UseVisualStyleBackColor = true;
             this.NewTaskManagerBtn.Click += new System.EventHandler(this.NewTaskManagerBtn_Click);
             // 
